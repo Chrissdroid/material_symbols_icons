@@ -55,7 +55,7 @@ String get resourcesDir => _resourcesDir;
 /// [filter] allows filtering directories by name (receives the full directory basename).
 /// Returns the normalized absolute path, or null if not found.
 String? _findLatestPackageDir(String pubDevPackagesDir, String baseToChop, bool Function(String dirName) filter) {
-  final packageDirs = Glob('${baseToChop}*', caseSensitive: false, recursive: false);
+  final packageDirs = Glob('$baseToChop*', caseSensitive: false, recursive: false);
   final listFSE = packageDirs.listSync(root: pubDevPackagesDir);
   Version? highestVersion;
   String latestPackageDir = '';

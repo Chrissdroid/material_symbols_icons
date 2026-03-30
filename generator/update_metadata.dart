@@ -32,8 +32,8 @@ typedef Asset = ({String srcUrlPattern, String destDirPattern});
 typedef Fetch = ({String iconName, String srcUrl, String destFile});
 
 Map<String, String> renamedIconNames = {};
-Set<String> autoMirroredIconNames = Set<String>();
-Set<String> fromExistingJsonMetaData_AutoMirroredIconNames = Set<String>();
+Set<String> autoMirroredIconNames = <String>{};
+Set<String> fromExistingJsonMetaData_AutoMirroredIconNames = <String>{};
 
 // Define asset lists.
 List<Asset> _ICON_ASSETS = [

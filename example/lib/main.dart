@@ -29,9 +29,9 @@ Map<String, IconData> materialSymbolsSharpMap = {};
 List<String> renamedMaterialSymbolsMapKeys = [];
 
 const String materialSymbolsIconsSourceFontVersionNumber =
-    '2.906'; // must update for each new font update
+    '2.928'; // must update for each new font update
 const String materialSymbolsIconsSourceReleaseDate =
-    'Jan. 29, 2026'; // must update for each new font update
+    'Mar. 26, 2026'; // must update for each new font update
 int totalMaterialSymbolsIcons = 0;
 
 void makeSymbolsByStyleMaps() {
@@ -52,7 +52,7 @@ Map<String, String>? startupQueryParameters;
 
 void main() {
   // prevent engine from removing query url parameters
-  setUrlStrategy(const PathUrlStrategy());
+  usePathUrlStrategy();
 
   // we need to grab these now because startup inside flutter will
   // throw exception for unknown route and clear our query parameters
@@ -220,8 +220,8 @@ class _MyHomePageState extends State<MyHomePage> {
       'opticalSize': _opticalSizeVariation.toString(),
     });
     String uriString = uri.toString();
-    window.history.pushState({'path': uriString}, '',
-        uriString); //window.location.href = uri.toString();
+    var currentState = window.history.state;
+    window.history.replaceState(currentState, '', uriString);
   }
 
   void grabInitialStateFromUrl() {
@@ -378,7 +378,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String getStyleSummary() {
     String style = '';
-    if(_iconDisplayMode == 1) {
+    if (_iconDisplayMode == 1) {
       style = 'Two Tone Variation 1';
     } else if (_iconDisplayMode == 2) {
       style = 'Two Tone Variation 2';
@@ -419,9 +419,10 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   String getIconCodeStringForCurrentSettings() {
-    if(_iconDisplayMode == 1 || _iconDisplayMode == 2) {
-      final enumName = 'TwoToneVariation.${TwoToneVariation.values[_iconDisplayMode-1].name}';
-      return 'TwoToneIcon.varied( Symbols.settings, ${_iconDisplayMode==2 ? "twoToneVariation: ${enumName}, ":""}size: $_iconFontSize, color: ${colorToRGBString(_2toneIconColor1)}, color2: ${colorToRGBString(_2toneIconColor2)}${_fillVariation != 0 ? ', fill: $_fillVariation' : ''}${_weightVariation != 400 ? ', weight: $_weightVariation' : ''}${_gradeVariation != 0 ? ', grade: $_gradeVariation' : ''}${_opticalSizeVariation != 24 ? ', opticalSize: $_opticalSizeVariation' : ''} )';
+    if (_iconDisplayMode == 1 || _iconDisplayMode == 2) {
+      final enumName =
+          'TwoToneVariation.${TwoToneVariation.values[_iconDisplayMode - 1].name}';
+      return 'TwoToneIcon.varied( Symbols.settings, ${_iconDisplayMode == 2 ? "twoToneVariation: $enumName, " : ""}size: $_iconFontSize, color: ${colorToRGBString(_2toneIconColor1)}, color2: ${colorToRGBString(_2toneIconColor2)}${_fillVariation != 0 ? ', fill: $_fillVariation' : ''}${_weightVariation != 400 ? ', weight: $_weightVariation' : ''}${_gradeVariation != 0 ? ', grade: $_gradeVariation' : ''}${_opticalSizeVariation != 24 ? ', opticalSize: $_opticalSizeVariation' : ''} )';
     } else if (_useForNormalIcons) {
       return 'Icon( Symbols.settings, size: $_iconFontSize${_fillVariation != 0 ? ', fill: $_fillVariation' : ''}, color: ${colorToRGBString(_2toneIconColor1)}${_weightVariation != 400 ? ', weight: $_weightVariation' : ''}${_gradeVariation != 0 ? ', grade: $_gradeVariation' : ''}${_opticalSizeVariation != 24 ? ', opticalSize: $_opticalSizeVariation' : ''} )';
     }
@@ -430,23 +431,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget buildIconCodeSummaryWidget() {
     return SelectableText(onTap: () {
-              final exampleIconCode = getIconCodeStringForCurrentSettings();
-              Clipboard.setData(ClipboardData(text: exampleIconCode)).then((_) {
-                if (context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Copied "$exampleIconCode" to the clipboard.')));
-                }
-              });
-            },
-            '${getIconCodeStringForCurrentSettings()}',
-            //maxLines: 4,
-            style: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Courier New',
-                fontSize: 10
-            )
-          );
+      final exampleIconCode = getIconCodeStringForCurrentSettings();
+      Clipboard.setData(ClipboardData(text: exampleIconCode)).then((_) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Copied "$exampleIconCode" to the clipboard.')));
+        }
+      });
+    }, getIconCodeStringForCurrentSettings(),
+        //maxLines: 4,
+        style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Courier New',
+            fontSize: 10));
   }
 
   Widget buildPossiblyConstrainedAppBarTitle(bool constrained) {
@@ -575,182 +573,185 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-        // Row for icon display mode radio buttons
-        ...Splittable.flexibleRow(
-          context: context,
-          splitAtIndicesByWidth: {
-            300: [0, 2, 4],
-          },
-          forceSplit: screenWidth <= 600,
-          splitWidgetBehavior: SplitWidgetBehavior.includeInThisRow,
-          mainAxisAlignment: mainAxisAlignment,
-          children: <Widget>[
-            const Text(
-              'Icon Display:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            Radio<int>(
-              value: 0,
-              groupValue: _iconDisplayMode,
-              onChanged: (val) {
-                setState(() {
-                  _iconDisplayMode = val ?? 0;
-                });
-              },
-            ),
-            const Text('Normal', style: TextStyle(fontSize: 16.0)),
-            Radio<int>(
-              value: 1,
-              groupValue: _iconDisplayMode,
-              onChanged: (val) {
-                setState(() {
-                  _iconDisplayMode = val ?? 0;
-                });
-              },
-            ),
-            const Text('Two Tone Variation 1', style: TextStyle(fontSize: 16.0)),
-            Radio<int>(
-              value: 2,
-              groupValue: _iconDisplayMode,
-              onChanged: (val) {
-                setState(() {
-                  _iconDisplayMode = val ?? 0;
-                });
-              },
-            ),
-            const Text('Two Tone Variation 2', style: TextStyle(fontSize: 16.0)),
-          ],
-        ),
-        // Row for color pickers
-        ...Splittable.flexibleRow(
-          context: context,
-          splitAtIndicesByWidth: {
-            300: [0, 2, 4, 6],
-            600: [0, 3, 5],
-          },
-          forceSplit: screenWidth <= 600,
-          splitWidgetBehavior: SplitWidgetBehavior.includeInThisRow,
-          mainAxisAlignment: mainAxisAlignment,
-          children: <Widget>[
-            const Text(
-              'Two Tone Icon Color 1:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            const SizedBox(width:10),
-            GestureDetector(
-              onTap: () async {
-                Color pickedColor = _2toneIconColor1;
-                await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text('Pick a color'),
-                      content: SingleChildScrollView(
-                        child: ColorPicker(
-                          pickerColor: pickedColor,
-                          onColorChanged: (color) {
-                            pickedColor = color;
-                          },
-                          showLabel: true,
-                          pickerAreaHeightPercent: 0.8,
-                        ),
+      // Row for icon display mode radio buttons
+      ...Splittable.flexibleRow(
+        context: context,
+        splitAtIndicesByWidth: {
+          300: [0, 2, 4],
+        },
+        forceSplit: screenWidth <= 600,
+        splitWidgetBehavior: SplitWidgetBehavior.includeInThisRow,
+        mainAxisAlignment: mainAxisAlignment,
+        children: <Widget>[
+          const Text(
+            'Icon Display:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+          ),
+          Radio<int>(
+            value: 0,
+            groupValue: _iconDisplayMode,
+            onChanged: (val) {
+              setState(() {
+                _iconDisplayMode = val ?? 0;
+              });
+            },
+          ),
+          const Text('Normal', style: TextStyle(fontSize: 16.0)),
+          Radio<int>(
+            value: 1,
+            groupValue: _iconDisplayMode,
+            onChanged: (val) {
+              setState(() {
+                _iconDisplayMode = val ?? 0;
+              });
+            },
+          ),
+          const Text('Two Tone Variation 1', style: TextStyle(fontSize: 16.0)),
+          Radio<int>(
+            value: 2,
+            groupValue: _iconDisplayMode,
+            onChanged: (val) {
+              setState(() {
+                _iconDisplayMode = val ?? 0;
+              });
+            },
+          ),
+          const Text('Two Tone Variation 2', style: TextStyle(fontSize: 16.0)),
+        ],
+      ),
+      // Row for color pickers
+      ...Splittable.flexibleRow(
+        context: context,
+        splitAtIndicesByWidth: {
+          300: [0, 2, 4, 6],
+          600: [0, 3, 5],
+        },
+        forceSplit: screenWidth <= 600,
+        splitWidgetBehavior: SplitWidgetBehavior.includeInThisRow,
+        mainAxisAlignment: mainAxisAlignment,
+        children: <Widget>[
+          const Text(
+            'Two Tone Icon Color 1:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+          ),
+          const SizedBox(width: 10),
+          GestureDetector(
+            onTap: () async {
+              Color pickedColor = _2toneIconColor1;
+              await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Pick a color'),
+                    content: SingleChildScrollView(
+                      child: ColorPicker(
+                        pickerColor: pickedColor,
+                        onColorChanged: (color) {
+                          pickedColor = color;
+                        },
+                        showLabel: true,
+                        pickerAreaHeightPercent: 0.8,
                       ),
-                      actions: [
-                        TextButton(
-                          child: const Text('Cancel'),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                        TextButton(
-                          child: const Text('Select'),
-                          onPressed: () => Navigator.of(context).pop(pickedColor),
-                        ),
-                      ],
-                    );
-                  },
-                ).then((picked) {
-                  if (picked != null && picked is Color) {
-                    setState(() {
-                      _2toneIconColor1 = picked;
-                    });
-                  }
-                });
-              },
-              child: Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: _2toneIconColor1,
-                  border: Border.all(color: Colors.black),
-                  borderRadius: const BorderRadius.all(Radius.zero), //.circular(16),
-                ),
+                    ),
+                    actions: [
+                      TextButton(
+                        child: const Text('Cancel'),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      TextButton(
+                        child: const Text('Select'),
+                        onPressed: () => Navigator.of(context).pop(pickedColor),
+                      ),
+                    ],
+                  );
+                },
+              ).then((picked) {
+                if (picked != null && picked is Color) {
+                  setState(() {
+                    _2toneIconColor1 = picked;
+                  });
+                }
+              });
+            },
+            child: Container(
+              width: 16,
+              height: 16,
+              decoration: BoxDecoration(
+                color: _2toneIconColor1,
+                border: Border.all(color: Colors.black),
+                borderRadius:
+                    const BorderRadius.all(Radius.zero), //.circular(16),
               ),
             ),
-            const SizedBox(width:10),
-            const Text('Use ⇤ for normal icons', style: TextStyle(fontSize: 16.0)),
-            Checkbox(
-              value: _useForNormalIcons,
-              onChanged: (val) {
-                setState(() {
-                  _useForNormalIcons = val ?? false;
-                });
-              },
-            ),
-            const SizedBox(width:20),
-            const Text(
-              'Two Tone Icon Color 2:',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
-            ),
-            const SizedBox(width:10),
-            GestureDetector(
-              onTap: () async {
-                Color pickedColor = _2toneIconColor2;
-                await showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text('Pick a color'),
-                      content: SingleChildScrollView(
-                        child: ColorPicker(
-                          pickerColor: pickedColor,
-                          onColorChanged: (color) {
-                            pickedColor = color;
-                          },
-                          showLabel: true,
-                          pickerAreaHeightPercent: 0.8,
-                        ),
+          ),
+          const SizedBox(width: 10),
+          const Text('Use ⇤ for normal icons',
+              style: TextStyle(fontSize: 16.0)),
+          Checkbox(
+            value: _useForNormalIcons,
+            onChanged: (val) {
+              setState(() {
+                _useForNormalIcons = val ?? false;
+              });
+            },
+          ),
+          const SizedBox(width: 20),
+          const Text(
+            'Two Tone Icon Color 2:',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.0),
+          ),
+          const SizedBox(width: 10),
+          GestureDetector(
+            onTap: () async {
+              Color pickedColor = _2toneIconColor2;
+              await showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Pick a color'),
+                    content: SingleChildScrollView(
+                      child: ColorPicker(
+                        pickerColor: pickedColor,
+                        onColorChanged: (color) {
+                          pickedColor = color;
+                        },
+                        showLabel: true,
+                        pickerAreaHeightPercent: 0.8,
                       ),
-                      actions: [
-                        TextButton(
-                          child: const Text('Cancel'),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                        TextButton(
-                          child: const Text('Select'),
-                          onPressed: () => Navigator.of(context).pop(pickedColor),
-                        ),
-                      ],
-                    );
-                  },
-                ).then((picked) {
-                  if (picked != null && picked is Color) {
-                    setState(() {
-                      _2toneIconColor2 = picked;
-                    });
-                  }
-                });
-              },
-              child: Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                  color: _2toneIconColor2,
-                  border: Border.all(color: Colors.black),
-                  borderRadius: const BorderRadius.all(Radius.zero), //circular(16),
-                ),
+                    ),
+                    actions: [
+                      TextButton(
+                        child: const Text('Cancel'),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      TextButton(
+                        child: const Text('Select'),
+                        onPressed: () => Navigator.of(context).pop(pickedColor),
+                      ),
+                    ],
+                  );
+                },
+              ).then((picked) {
+                if (picked != null && picked is Color) {
+                  setState(() {
+                    _2toneIconColor2 = picked;
+                  });
+                }
+              });
+            },
+            child: Container(
+              width: 16,
+              height: 16,
+              decoration: BoxDecoration(
+                color: _2toneIconColor2,
+                border: Border.all(color: Colors.black),
+                borderRadius:
+                    const BorderRadius.all(Radius.zero), //circular(16),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
       ...Splittable.flexibleRow(
         context: context,
         splitAtIndicesByWidth: {
@@ -1012,7 +1013,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   fontSize: 12.0,
                                 ),
                               ),
-
                               if (!configPanelExpanded!)
                                 buildSummaryWidgetOfStyleAndVariation(),
                             ]),
@@ -1081,7 +1081,8 @@ class _MyHomePageState extends State<MyHomePage> {
         final meta = iconMap[iconName];
         if (meta != null) {
           final hasTag = meta.tags.any((t) => tagMatches.contains(t));
-          final hasCategory = meta.categories.any((c) => categoryMatches.contains(c));
+          final hasCategory =
+              meta.categories.any((c) => categoryMatches.contains(c));
           if ((hasTag || hasCategory) && !matchIndices.contains(i)) {
             matchIndices.add(i);
           }
@@ -1122,56 +1123,57 @@ class _MyHomePageState extends State<MyHomePage> {
         toolbarHeight: 22,
         title: LayoutBuilder(
           builder: (context, constraints) {
-            return buildPossiblyConstrainedAppBarTitle((constraints.maxWidth < 640));
+            return buildPossiblyConstrainedAppBarTitle(
+                (constraints.maxWidth < 640));
           },
         ),
       ),
       body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints viewportConstraints) {
-          return ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-            ),
-            child: IntrinsicHeight(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 5.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ...buildFlexibleOptionsCustomizationPanel(context),
-                    ...Splittable.flexibleRow(
-                      context: context,
-                      forceSplit: screenWidth <= 600,
-                      splitAtIndicesByWidth: {
-                        300: [0],
-                        600: [0],
-                      },
-                      splitWidgetBehavior : SplitWidgetBehavior.includeInThisRow,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: screenWidth > 500 ? 400 : screenWidth * 0.8,
-                          ),
-                          child: IconSearchStringInput(
-                            initialSearchText: _iconSearchText,
-                            onSearchTextChanged: setNewSearchText,
-                          ),
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
+        return ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: viewportConstraints.maxHeight,
+          ),
+          child: IntrinsicHeight(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(12.0, 5.0, 12.0, 5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ...buildFlexibleOptionsCustomizationPanel(context),
+                  ...Splittable.flexibleRow(
+                    context: context,
+                    forceSplit: screenWidth <= 600,
+                    splitAtIndicesByWidth: {
+                      300: [0],
+                      600: [0],
+                    },
+                    splitWidgetBehavior: SplitWidgetBehavior.includeInThisRow,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxWidth: screenWidth > 500 ? 400 : screenWidth * 0.8,
                         ),
-                        Row(
-                          children: [
-                            Checkbox(
-                              value: _includeMetadataTags,
-                              onChanged: setIncludeMetadataTags,
-                            ),
-                            const Text('include metadata tags'),
-                          ],
+                        child: IconSearchStringInput(
+                          initialSearchText: _iconSearchText,
+                          onSearchTextChanged: setNewSearchText,
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Expanded(
+                      ),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: _includeMetadataTags,
+                            onChanged: setIncludeMetadataTags,
+                          ),
+                          const Text('include metadata tags'),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
                     child: CustomScrollView(
                       controller: _scrollController,
                       slivers: [
@@ -1209,12 +1211,15 @@ class _MyHomePageState extends State<MyHomePage> {
                                     child: Tooltip(
                                       message: 'Symbols.$iconNameForIndex',
                                       child: Column(children: [
-                                        if(_iconDisplayMode==1 || _iconDisplayMode==2)
-                                          TwoToneIcon.varied(iconDataForIndex,
-                                                size: _iconFontSize,
-                                                twoToneVariation: TwoToneVariation.values[_iconDisplayMode-1],
-                                                color: _2toneIconColor1,
-                                                color2: _2toneIconColor2,
+                                        if (_iconDisplayMode == 1 ||
+                                            _iconDisplayMode == 2)
+                                          TwoToneIcon.varied(
+                                            iconDataForIndex,
+                                            size: _iconFontSize,
+                                            twoToneVariation: TwoToneVariation
+                                                .values[_iconDisplayMode - 1],
+                                            color: _2toneIconColor1,
+                                            color2: _2toneIconColor2,
                                           )
                                         else if (hoveredOverIconData ==
                                             iconDataForIndex)
@@ -1224,13 +1229,17 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 ? 0.0
                                                 : 1.0, //  ON MOUSE OVER FILL !!
                                             size: _iconFontSize,
-                                            color: (_useForNormalIcons) ? _2toneIconColor1 : null,
+                                            color: (_useForNormalIcons)
+                                                ? _2toneIconColor1
+                                                : null,
                                           )
                                         else
                                           VariedIcon.varied(
                                             iconDataForIndex,
                                             size: _iconFontSize,
-                                            color: (_useForNormalIcons) ? _2toneIconColor1 : null,
+                                            color: (_useForNormalIcons)
+                                                ? _2toneIconColor1
+                                                : null,
                                           ),
                                         if (_iconFontSize <= 64)
                                           const SizedBox(height: 5),

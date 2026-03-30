@@ -1,5 +1,19 @@
 # Changelog for Material Symbols Icons package
 
+## 4.2928.0
+
+* Update to version 2.928 of the material icons variable fonts 'released' 03/26/2026 with 4205 icons.
+* Added fffa7  # avocado_bean, fffa2  # bus_map_pin, fff85  # check_alert, fff8b  # code_xml,
+  fffa8  # fire_check, fffa6  # fork_chart, fff97  # format_paint_off, fff98  # graphic_eq_off,
+  fff8d  # grid_layout_side, fff7e  # home_storage_gear, fff9c  # horizontal_align_center,
+  fff9b  # horizontal_align_left, fff9a  # horizontal_align_right, fffa3  # mobiledata_arrows,
+  fff7d  # movie_edit_off, fff9d  # phone_cancel, fff99  # resize_window, fff7b  # sell_cloud,
+  fff8a  # signal_cellular_alt_off, ed5b  # snowflake, fff8c  # space_dashboard_2,
+  fff95  # sql, fff94  # swipe_left_2, fff93  # swipe_right_2, fff8e  # terminal_2,
+  fff92  # text_ad_off, fffa5  # water_drops, fffa4  # wheat
+* Removed use of the `MaterialSymbolsOutline`, `MaterialSymbolsRound` and `MaterialSymbolSharp`
+  `IconData` extensions for defining icons as `IconData` is now final and cannot be extended.
+
 ## 4.2906.0
 
 * Update to version 2.906 of the material icons variable fonts 'released' 01/29/2026 with 4177 icons.

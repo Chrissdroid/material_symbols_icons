@@ -47,7 +47,7 @@ const bool useMyRepository =
 
 class MaterialSymbolsVariableFont {
   final String flavor;
-  final String iconDataClass;
+  final String fontFamilyConstVarName;
   final String familyNameToUse;
   /*final*/ String _codepointFileUrl;
   /*final*/ String _ttfFontFileUrl;
@@ -81,7 +81,7 @@ class MaterialSymbolsVariableFont {
 
   MaterialSymbolsVariableFont(
       this.flavor,
-      this.iconDataClass,
+      this.fontFamilyConstVarName,
       this.familyNameToUse,
       this._codepointFileUrl,
       this._ttfFontFileUrl,
@@ -97,7 +97,7 @@ class MaterialSymbolsVariableFont {
 List<MaterialSymbolsVariableFont> variableFontFlavors = [
   MaterialSymbolsVariableFont(
     'outlined',
-    'IconDataOutlined',
+    'fFO',
     'MaterialSymbolsOutlined',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf',
@@ -107,7 +107,7 @@ List<MaterialSymbolsVariableFont> variableFontFlavors = [
   ),
   MaterialSymbolsVariableFont(
     'rounded',
-    'IconDataRounded',
+    'fFR',
     'MaterialSymbolsRounded',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf',
@@ -117,7 +117,7 @@ List<MaterialSymbolsVariableFont> variableFontFlavors = [
   ),
   MaterialSymbolsVariableFont(
     'sharp',
-    'IconDataSharp',
+    'fFS',
     'MaterialSymbolsSharp',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsSharp%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsSharp%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf',
@@ -351,7 +351,7 @@ void findMetadataWithDifferentCodepointsFromName(
     final codepoint = iconInfo.codePoint;
     final int codePointValue = int.tryParse('0x$codepoint') ?? 0;
 
-    final iconDataClass = fontinfo.iconDataClass;
+    final fontFamilyConstVarName = fontinfo.fontFamilyConstVarName;
     final iconMetadata =
         iconMetadataMap[iconname]; // ?? codepointToMetadataMap[codePointValue];
     if (iconMetadata != null) {
@@ -985,8 +985,6 @@ library symbols;
 
 import 'package:flutter/widgets.dart';
 export 'material_symbols_icons.dart';
-import 'src/icon_data.dart';
-export 'src/icon_data.dart';
 
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: non_constant_identifier_names
@@ -1062,6 +1060,11 @@ class Symbols {
   // prevents instantiation and extension.
   Symbols._();
 
+  static const fFO = 'MaterialSymbolsOutlined';
+  static const fFR = 'MaterialSymbolsRounded';
+  static const fFS = 'MaterialSymbolsSharp';
+  static const fP = 'material_symbols_icons';
+
   /// This routine exists to FORCE TREE SHAKING of the icon fonts that may not be referenced
   /// at all within the application.  This is required because the Material Symbols Icons
   /// have 3 font varieties and it is very likely only one will be used.
@@ -1071,7 +1074,7 @@ class Symbols {
   /// the icon tree shake will report as 100.0% reduction.
   /// (Tree shaking occurs when a *const* declaration to an IconData() class occurs.)
   ///
-  /// NOTE: VERY IMPORTANT - the `@pargma('vm:entry-point')` annotation is REQUIRED
+  /// NOTE: VERY IMPORTANT - the `@pragma('vm:entry-point')` annotation is REQUIRED
   /// and it is being used to force the dart compilation process to believe that this
   /// method is required and that it CAN NOT tree-shake this method when it never
   /// finds a call to it in the dart source code.
@@ -1082,16 +1085,16 @@ class Symbols {
     // icon in each of the fonts (one of the smallest glyphs we can include).
     // ignore: unused_local_variable
     var forceOutlinedTreeShake = const IconData(0xf88a,
-        fontFamily: 'MaterialSymbolsOutlined',
-        fontPackage: 'material_symbols_icons');
+        fontFamily: fFO,
+        fontPackage: fP);
     // ignore: unused_local_variable
     var forceRoundedTreeShake = const IconData(0xf88a,
-        fontFamily: 'MaterialSymbolsRounded',
-        fontPackage: 'material_symbols_icons');
+        fontFamily: fFR,
+        fontPackage: fP);
     // ignore: unused_local_variable
     var forceSharpTreeShake = const IconData(0xf88a,
-        fontFamily: 'MaterialSymbolsSharp',
-        fontPackage: 'material_symbols_icons');
+        fontFamily: fFS,
+        fontPackage: fP);
   }
 
   // BEGIN GENERATED ICONS
@@ -1120,7 +1123,7 @@ class Symbols {
       final codepoint = iconInfo.codePoint;
       final int codePointValue = int.tryParse('0x$codepoint') ?? 0;
 
-      final iconDataClass = fontinfo.iconDataClass;
+      final fontFamilyConstVarName = fontinfo.fontFamilyConstVarName;
       final iconMetadata =
           iconMetadataMap[iconname] ?? codepointToMetadataMap[codePointValue];
 
@@ -1165,12 +1168,12 @@ class Symbols {
         sourceFileContent.writeln(tagLines);
       }
       String proposedSingleLine =
-          "  static const IconData $iconname = $iconDataClass(0x$codepoint${rtlMatchTextDirection ? ', matchTextDirection: true' : ''});";
+          "  static const IconData $iconname = IconData(0x$codepoint, fontFamily: $fontFamilyConstVarName, fontPackage: fP${rtlMatchTextDirection ? ', matchTextDirection: true' : ''});";
       if (proposedSingleLine.length > 80) {
         //split to two lines
         sourceFileContent.writeln("  static const IconData $iconname =");
         sourceFileContent.writeln(
-            "      $iconDataClass(0x$codepoint${rtlMatchTextDirection ? ', matchTextDirection: true' : ''});");
+            "      IconData(0x$codepoint, fontFamily: $fontFamilyConstVarName, fontPackage: fP${rtlMatchTextDirection ? ', matchTextDirection: true' : ''});");
       } else {
         // one line
         sourceFileContent.writeln(proposedSingleLine);

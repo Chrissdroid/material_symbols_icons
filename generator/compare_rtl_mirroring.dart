@@ -58,7 +58,7 @@ void main() async {
   // 3. For every base icon in rtlIcons, check that all its _rounded and _sharp variants (if present) also have matchTextDirection: true
   final missingVariants = <String, List<String>>{};
   for (final base in rtlIcons) {
-    final variants = [base, base + '_rounded', base + '_sharp'];
+    final variants = [base, '${base}_rounded', '${base}_sharp'];
     for (final v in variants) {
       if (!mirroredIconsRaw.contains(v) && symbolsContent.any((l) => l.contains('static const IconData $v'))) {
         missingVariants.putIfAbsent(base, () => []).add(v);

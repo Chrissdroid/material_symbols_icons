@@ -388,6 +388,7 @@ e01b  # av_timer
 f4af  # avc
 f6bb  # avg_pace
 f813  # avg_time
+fffa7  # avocado_bean
 f241  # award_meal
 f612  # award_star
 f6ec  # azm
@@ -628,6 +629,7 @@ ef48  # build_circle
 e591  # bungalow
 e43c  # burst_mode
 e98f  # bus_alert
+fffa2  # bus_map_pin
 f36b  # bus_railway
 e7ee  # business
 eb3f  # business_center
@@ -760,6 +762,7 @@ f52b  # chat_info
 f6bd  # chat_paste_go
 f3cb  # chat_paste_go_2
 e5ca  # check
+fff85  # check_alert
 e834  # check_box
 e835  # check_box_outline_blank
 f0be  # check_circle
@@ -853,6 +856,7 @@ eaf0  # co_present
 e86f  # code
 f84d  # code_blocks
 e4f3  # code_off
+fff8b  # code_xml
 efef  # coffee
 eff0  # coffee_maker
 e09f  # cognition
@@ -1463,6 +1467,7 @@ e880  # find_in_page
 e881  # find_replace
 e90d  # fingerprint
 f49d  # fingerprint_off
+fffa8  # fire_check
 f1d8  # fire_extinguisher
 f1a3  # fire_hydrant
 f8f2  # fire_truck
@@ -1549,6 +1554,7 @@ f893  # foot_bones
 f87d  # footprint
 e9ac  # for_you
 ea99  # forest
+fffa6  # fork_chart
 eba0  # fork_left
 ebac  # fork_right
 f3e4  # fork_spoon
@@ -1592,6 +1598,7 @@ e242  # format_list_numbered
 e267  # format_list_numbered_rtl
 eb65  # format_overline
 e243  # format_paint
+fff97  # format_paint_off
 f865  # format_paragraph
 e244  # format_quote
 f413  # format_quote_off
@@ -1728,12 +1735,14 @@ f39b  # graph_6
 f346  # graph_7
 fffec  # graph_8
 e1b8  # graphic_eq
+fff98  # graphic_eq_off
 f205  # grass
 f015  # grid_3x3
 f67c  # grid_3x3_off
 f016  # grid_4x4
 f017  # grid_goldenratio
 f76f  # grid_guides
+fff8d  # grid_layout_side
 e3eb  # grid_off
 e3ec  # grid_on
 e9b0  # grid_view
@@ -1863,7 +1872,11 @@ f14d  # home_pin
 f100  # home_repair_service
 f11c  # home_speaker
 f86c  # home_storage
+fff7e  # home_storage_gear
 f030  # home_work
+fff9c  # horizontal_align_center
+fff9b  # horizontal_align_left
+fff9a  # horizontal_align_right
 e014  # horizontal_distribute
 f108  # horizontal_rule
 e947  # horizontal_split
@@ -2362,6 +2375,7 @@ f2e4  # mobile_ticket
 eeea  # mobile_unlock
 f2cb  # mobile_vibrate
 f2b0  # mobile_wrench
+fffa3  # mobiledata_arrows
 f034  # mobiledata_off
 f097  # mode
 e253  # mode_comment
@@ -2443,6 +2457,7 @@ e594  # moved_location
 e404  # movie
 e404  # movie_creation
 f840  # movie_edit
+fff7d  # movie_edit_off
 e43a  # movie_filter
 e02d  # movie_info
 f499  # movie_off
@@ -2793,6 +2808,7 @@ f0d4  # phone_alt
 f2db  # phone_android
 e61b  # phone_bluetooth_speaker
 e649  # phone_callback
+fff9d  # phone_cancel
 e9cc  # phone_disabled
 e9cd  # phone_enabled
 e61c  # phone_forwarded
@@ -3062,6 +3078,7 @@ e9d9  # reset_tv
 f47c  # reset_white_balance
 f56c  # reset_wrench
 f707  # resize
+fff99  # resize_window
 e127  # respiratory_rate
 e9da  # responsive_layout
 f22a  # rest_area
@@ -3202,6 +3219,7 @@ e506  # select_window_off
 f86d  # self_care
 ea78  # self_improvement
 f05b  # sell
+fff7b  # sell_cloud
 e163  # send
 ea0c  # send_and_archive
 e8b7  # send_money
@@ -3331,6 +3349,7 @@ f7a9  # signal_cellular_add
 e202  # signal_cellular_alt
 ebdf  # signal_cellular_alt_1_bar
 ebe3  # signal_cellular_alt_2_bar
+fff8a  # signal_cellular_alt_off
 f0ac  # signal_cellular_connected_no_internet_0_bar
 e1cd  # signal_cellular_connected_no_internet_4_bar
 e1ce  # signal_cellular_no_sim
@@ -3393,6 +3412,7 @@ e87f  # sms_failed
 f1c7  # snippet_folder
 e046  # snooze
 e513  # snowboarding
+ed5b  # snowflake
 e80f  # snowing
 f61c  # snowing_heavy
 e503  # snowmobile
@@ -3421,6 +3441,7 @@ f1e5  # south_west
 eb4c  # spa
 e256  # space_bar
 e66b  # space_dashboard
+fff8c  # space_dashboard_2
 ebeb  # spatial_audio
 ebe8  # spatial_audio_off
 f4cf  # spatial_speaker
@@ -3490,6 +3511,7 @@ ea32  # sports_tennis
 ea31  # sports_volleyball
 e29a  # sprinkler
 f81f  # sprint
+fff95  # sql
 eb36  # square
 eec7  # square_circle
 f3b3  # square_dot
@@ -3612,8 +3634,10 @@ e9ec  # swipe
 eb53  # swipe_down
 eb30  # swipe_down_alt
 eb59  # swipe_left
+fff94  # swipe_left_2
 eb33  # swipe_left_alt
 eb52  # swipe_right
+fff93  # swipe_right_2
 eb56  # swipe_right_alt
 eb2e  # swipe_up
 eb35  # swipe_up_alt
@@ -3703,8 +3727,10 @@ eab3  # temple_buddhist
 eaaf  # temple_hindu
 f0e3  # tenancy
 eb8e  # terminal
+fff8e  # terminal_2
 e564  # terrain
 e728  # text_ad
+fff92  # text_ad_off
 f3c5  # text_compare
 eadd  # text_decrease
 e262  # text_fields
@@ -4064,6 +4090,7 @@ f69e  # water_bottle_large
 f203  # water_damage
 f870  # water_do
 e798  # water_drop
+fffa5  # water_drops
 f875  # water_ec
 f6d6  # water_full
 e284  # water_heater
@@ -4099,6 +4126,7 @@ e16b  # weekend
 e13d  # weight
 f1e6  # west
 e80e  # whatshot
+fffa4  # wheat
 f1ab  # wheelchair_pickup
 e177  # where_to_vote
 f3ba  # widget_medium

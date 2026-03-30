@@ -87,6 +87,7 @@ class IconMetadata {
     });
   }
 
+  @override
   String toString() {
     return 'IconMetadata{name: $name, renamedIconName: $renamedIconName, rtlAutoMirrored: $rtlAutoMirrored},  version: $version, stylisticSets: $stylisticSets, popularity: $popularity, codepoint: $codepoint, categories: $categories, tags: $tags';
   }

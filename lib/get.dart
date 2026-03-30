@@ -23,16 +23,17 @@ enum SymbolStyle {
 ///  Otherwise the tree-shaking will remove all icons as they will not appear to be accessed.
 /// @nodoc
 extension SymbolsGet on Symbols {
+
   static IconData get(String name, SymbolStyle style) {
     int codePoint = materialSymbolsIconNameToUnicodeMap[name] ??
         materialSymbolsIconNameToUnicodeMap['question_mark']!;
     switch (style) {
       case SymbolStyle.rounded:
-        return IconDataRounded(codePoint);
+        return IconData(codePoint, fontFamily: Symbols.fFR, fontPackage: Symbols.fP);
       case SymbolStyle.sharp:
-        return IconDataSharp(codePoint);
+        return IconData(codePoint, fontFamily: Symbols.fFS, fontPackage: Symbols.fP);
       case SymbolStyle.outlined:
-        return IconDataOutlined(codePoint);
+        return IconData(codePoint, fontFamily: Symbols.fFO, fontPackage: Symbols.fP);
     }
   }
 
