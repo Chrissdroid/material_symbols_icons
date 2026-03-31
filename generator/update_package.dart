@@ -47,7 +47,6 @@ const bool useMyRepository =
 
 class MaterialSymbolsVariableFont {
   final String flavor;
-  final String fontFamilyConstVarName;
   final String familyNameToUse;
   /*final*/ String _codepointFileUrl;
   /*final*/ String _ttfFontFileUrl;
@@ -81,7 +80,6 @@ class MaterialSymbolsVariableFont {
 
   MaterialSymbolsVariableFont(
       this.flavor,
-      this.fontFamilyConstVarName,
       this.familyNameToUse,
       this._codepointFileUrl,
       this._ttfFontFileUrl,
@@ -97,7 +95,6 @@ class MaterialSymbolsVariableFont {
 List<MaterialSymbolsVariableFont> variableFontFlavors = [
   MaterialSymbolsVariableFont(
     'outlined',
-    'fFO',
     'MaterialSymbolsOutlined',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsOutlined%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf',
@@ -107,7 +104,6 @@ List<MaterialSymbolsVariableFont> variableFontFlavors = [
   ),
   MaterialSymbolsVariableFont(
     'rounded',
-    'fFR',
     'MaterialSymbolsRounded',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf',
@@ -117,7 +113,6 @@ List<MaterialSymbolsVariableFont> variableFontFlavors = [
   ),
   MaterialSymbolsVariableFont(
     'sharp',
-    'fFS',
     'MaterialSymbolsSharp',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsSharp%5BFILL%2CGRAD%2Copsz%2Cwght%5D.codepoints',
     'https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsSharp%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf',
@@ -351,7 +346,7 @@ void findMetadataWithDifferentCodepointsFromName(
     final codepoint = iconInfo.codePoint;
     final int codePointValue = int.tryParse('0x$codepoint') ?? 0;
 
-    final fontFamilyConstVarName = fontinfo.fontFamilyConstVarName;
+    final familyNameToUse = fontinfo.familyNameToUse;
     final iconMetadata =
         iconMetadataMap[iconname]; // ?? codepointToMetadataMap[codePointValue];
     if (iconMetadata != null) {
@@ -1060,11 +1055,6 @@ class Symbols {
   // prevents instantiation and extension.
   Symbols._();
 
-  static const fFO = 'MaterialSymbolsOutlined';
-  static const fFR = 'MaterialSymbolsRounded';
-  static const fFS = 'MaterialSymbolsSharp';
-  static const fP = 'material_symbols_icons';
-
   /// This routine exists to FORCE TREE SHAKING of the icon fonts that may not be referenced
   /// at all within the application.  This is required because the Material Symbols Icons
   /// have 3 font varieties and it is very likely only one will be used.
@@ -1085,16 +1075,16 @@ class Symbols {
     // icon in each of the fonts (one of the smallest glyphs we can include).
     // ignore: unused_local_variable
     var forceOutlinedTreeShake = const IconData(0xf88a,
-        fontFamily: fFO,
-        fontPackage: fP);
+        fontFamily: 'MaterialSymbolsOutlined',
+        fontPackage: 'material_symbols_icons');
     // ignore: unused_local_variable
     var forceRoundedTreeShake = const IconData(0xf88a,
-        fontFamily: fFR,
-        fontPackage: fP);
+        fontFamily: 'MaterialSymbolsRounded',
+        fontPackage: 'material_symbols_icons');
     // ignore: unused_local_variable
     var forceSharpTreeShake = const IconData(0xf88a,
-        fontFamily: fFS,
-        fontPackage: fP);
+        fontFamily: 'MaterialSymbolsSharp',
+        fontPackage: 'material_symbols_icons');
   }
 
   // BEGIN GENERATED ICONS
@@ -1123,7 +1113,7 @@ class Symbols {
       final codepoint = iconInfo.codePoint;
       final int codePointValue = int.tryParse('0x$codepoint') ?? 0;
 
-      final fontFamilyConstVarName = fontinfo.fontFamilyConstVarName;
+      final familyNameToUse = fontinfo.familyNameToUse;
       final iconMetadata =
           iconMetadataMap[iconname] ?? codepointToMetadataMap[codePointValue];
 
@@ -1168,12 +1158,12 @@ class Symbols {
         sourceFileContent.writeln(tagLines);
       }
       String proposedSingleLine =
-          "  static const IconData $iconname = IconData(0x$codepoint, fontFamily: $fontFamilyConstVarName, fontPackage: fP${rtlMatchTextDirection ? ', matchTextDirection: true' : ''});";
+          "  static const IconData $iconname = IconData(0x$codepoint, fontFamily: '${fontinfo.familyNameToUse}', fontPackage: 'material_symbols_icons'${rtlMatchTextDirection ? ', matchTextDirection: true' : ''});";
       if (proposedSingleLine.length > 80) {
         //split to two lines
         sourceFileContent.writeln("  static const IconData $iconname =");
         sourceFileContent.writeln(
-            "      IconData(0x$codepoint, fontFamily: $fontFamilyConstVarName, fontPackage: fP${rtlMatchTextDirection ? ', matchTextDirection: true' : ''});");
+            "      IconData(0x$codepoint, fontFamily: '${fontinfo.familyNameToUse}', fontPackage: 'material_symbols_icons'${rtlMatchTextDirection ? ', matchTextDirection: true' : ''});");
       } else {
         // one line
         sourceFileContent.writeln(proposedSingleLine);

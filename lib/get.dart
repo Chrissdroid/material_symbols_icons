@@ -29,11 +29,11 @@ extension SymbolsGet on Symbols {
         materialSymbolsIconNameToUnicodeMap['question_mark']!;
     switch (style) {
       case SymbolStyle.rounded:
-        return IconData(codePoint, fontFamily: Symbols.fFR, fontPackage: Symbols.fP);
+        return IconData(codePoint, fontFamily: 'MaterialSymbolsRounded', fontPackage: 'material_symbols_icons');
       case SymbolStyle.sharp:
-        return IconData(codePoint, fontFamily: Symbols.fFS, fontPackage: Symbols.fP);
+        return IconData(codePoint, fontFamily: 'MaterialSymbolsSharp', fontPackage: 'material_symbols_icons');
       case SymbolStyle.outlined:
-        return IconData(codePoint, fontFamily: Symbols.fFO, fontPackage: Symbols.fP);
+        return IconData(codePoint, fontFamily: 'MaterialSymbolsOutlined', fontPackage: 'material_symbols_icons');
     }
   }
 

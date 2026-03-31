@@ -1,5 +1,11 @@
 # Changelog for Material Symbols Icons package
 
+## 4.2928.1
+
+* Removed use of static const variables for font family names/package name in IconData() declarations
+  because the tree shaker can only see strings, it cannot resolve const variables, so icons were getting
+  tree shaken.  Fixes #46
+
 ## 4.2928.0
 
 * Update to version 2.928 of the material icons variable fonts 'released' 03/26/2026 with 4205 icons.
@@ -13,6 +19,9 @@
   fff92  # text_ad_off, fffa5  # water_drops, fffa4  # wheat
 * Removed use of the `MaterialSymbolsOutline`, `MaterialSymbolsRound` and `MaterialSymbolSharp`
   `IconData` extensions for defining icons as `IconData` is now final and cannot be extended.
+  https://github.com/flutter/flutter/commit/5940fcf3f9231c33c2d56c82c686cb4834a3e0e3
+  https://github.com/flutter/flutter/issues/181342
+  https://github.com/flutter/flutter/issues/181344
 
 ## 4.2906.0
 
